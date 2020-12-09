@@ -12,13 +12,16 @@ api = FastAPI()
 
 @api.post("/user/auth/")
 async def auth_user(user_in: UserIn):
+
     user_in_db = get_user(user_in.username)
+
     if user_in_db == None:
-        raise HTTPException(status_code=404,
-                            detail="El usuario no existe")
+        raise HTTPException(status_code=404, detail="El usuario no existe")
+
     if user_in_db.password != user_in.password:
-        return {"Autenticado": False}
-        return {"Autenticado": True}
+        return  {"Autenticado": False}
+
+    return  {"Autenticado": True}
 
 
 @api.get("/user/balance/{username}")
